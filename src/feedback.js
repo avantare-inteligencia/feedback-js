@@ -17,34 +17,26 @@ export default class Feedback {
 			events: false,
 			emailField: false,
 			forceShowButton: false,
-			btnTitle: 'Feedback',
+			btnTitle: 'Encontrou algum erro?',
 			title: 'Feedback',
 			contactText: 'Want to chat?',
 			contactLink: '',
 			typeMessage: 'What feedback do you have?',
-			success: 'Thanks! 👊',
-			inputPlaceholder: 'Your feedback goes here!',
+			success: 'Enviado. Obrigado!',
+			inputPlaceholder: 'Conte nos um pouco...',
 			emailPlaceholder: 'Email address (optional)',
-			submitText: 'Submit',
+			submitText: 'Enviar',
 			backText: 'Back',
-			failedTitle: 'Oops, an error ocurred!',
-			failedMessage: 'Please try again. If this keeps happening, try to send an email instead.',
+			failedTitle: 'Ops, algo deu errado!',
+			failedMessage: 'Tente novamente. Caso persista, contacte-nos por.', //https://kitei.com.br/contato/
 			position: 'right',
 			primary: 'rgb(53, 222, 118)',
 			background: '#fff',
 			color: '#000',
 			types: {
 				general: {
-					text: 'General Feedback',
+					text: 'Fale conosco',
 					icon: '😁'
-				},
-				idea: {
-					text: 'I have an idea',
-					icon: '💡'
-				},
-				bug: {
-					text: 'I found an issue',
-					icon: '🐞'
 				}
 			}
 		}
@@ -104,12 +96,6 @@ export default class Feedback {
 						<p>${ this.options.title }</p>
 						${ this.options.contactLink.length > 0 ? '<a href=' + this.options.contactLink + '>' + this.options.contactText + '</a>' : '' }
 					</div>
-					<div class="feedback-content">
-						<p>${ this.options.typeMessage }</p>
-						<div class="feedback-content-list">
-							${ Object.entries(this.options.types).reduce((prev, [ id, item ]) => prev += `<button id="feedback-item-${ id }" class="feedback-item"><span>${ item.icon }</span>${ item.text }</button>`, '') }
-						</div>
-					</div>
 				</div>
 				<div class="feedback-close">
 					<button id="feedback-close">
@@ -126,13 +112,7 @@ export default class Feedback {
 			this.closeModal()
 		})
 
-		Object.keys(this.options.types).forEach((id) => {
-			const elem = document.getElementById(`feedback-item-${ id }`)
-
-			elem.onclick = () => {
-				this.renderForm(id)
-			}
-		})
+                this.renderForm('general')
 	}
 
 	/**
@@ -156,7 +136,6 @@ export default class Feedback {
 							${ this.options.emailField ? `<input id="feedback-email" type="email" name="email" placeholder="${ this.options.emailPlaceholder }">` : '' }
 							<textarea id="feedback-message" name="feedback" autofocus type="text" maxlength="500" rows="5" placeholder="${ this.options.inputPlaceholder }"></textarea>
 							<div id="feedback-actions" class="feedback-actions">
-								<button type="button" id="feedback-back">${ this.options.backText }</button>
 								<button type="submit" id="feedback-submit">${ this.options.submitText }</button>
 							</div>
 					</div>
@@ -177,11 +156,6 @@ export default class Feedback {
 		const button = document.getElementById('feedback-close')
 		button.addEventListener('click', () => {
 			this.closeModal()
-		})
-
-		const back = document.getElementById('feedback-back')
-		back.addEventListener('click', () => {
-			this.renderModal()
 		})
 
 		const submit = document.getElementById('feedback-submit')
@@ -220,6 +194,8 @@ export default class Feedback {
 			message: message
 		}
 
+          console.log(data);
+
 		if (this.options.events) {
 			const event = new CustomEvent('feedback-submit', { detail: data })
 			window.dispatchEvent(event)
@@ -236,20 +212,13 @@ export default class Feedback {
 	 */
 	sendToEndpoint(data) {
 		this.renderLoading()
-
-		const request = new XMLHttpRequest()
-		request.open('POST', this.options.endpoint)
-		request.setRequestHeader('Content-type', 'application/json')
-		request.send(JSON.stringify(data))
-		request.onreadystatechange = () => {
-			if (request.readyState === 4) {
-				if (request.status === 200) {
-					return this.renderSuccess()
-				}
-
-				this.renderFailed()
-			}
-		}
+                
+                // Disparar data layer neste momento (dentro do código do template
+                // é preciso chamar o this.renderSuccess(); O codigo do template vai ser composto por essa função:
+                // feedbackModal.renderLoading();
+                // dataLayer.push({'event': 'feedback'});
+                // feedbackModal.renderSuccess();
+                this.renderSuccess();
 	}
 
 	/**
@@ -350,6 +319,7 @@ export default class Feedback {
 
 			.feedback-header{
 				color: ${ this.options.background };
+
 				background-color: ${ this.options.primary };
 				padding: 0.8rem 1.25rem;
 			}

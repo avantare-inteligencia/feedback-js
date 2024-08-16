@@ -1,4 +1,4 @@
-import Feedback, { IS_BROWSER } from './feedback'
+import Feedback, { IS_BROWSER } from './feedback.js'
 export default Feedback
 
 const detect = () => {
