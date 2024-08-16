@@ -213,11 +213,13 @@ export default class Feedback {
 	sendToEndpoint(data) {
 		this.renderLoading()
                 
-                // Disparar data layer neste momento (dentro do código do template
-                // é preciso chamar o this.renderSuccess(); O codigo do template vai ser composto por essa função:
-                // feedbackModal.renderLoading();
-                // dataLayer.push({'event': 'feedback'});
-                // feedbackModal.renderSuccess();
+                // Trigger data layer to GTM
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push({
+                  'event': 'teste',
+                  'feedback_text': data.message
+                });
+
                 this.renderSuccess();
 	}
 
