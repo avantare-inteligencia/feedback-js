@@ -30,7 +30,7 @@ export default class Feedback {
 			failedTitle: 'Ops, algo deu errado!',
 			failedMessage: 'Tente novamente. Caso persista, contacte-nos por.', //https://kitei.com.br/contato/
 			position: 'right',
-			primary: 'rgb(53, 222, 118)',
+			primary: 'rgb(255, 102, 0)',
 			background: '#fff',
 			color: '#000',
 			types: {
@@ -304,8 +304,8 @@ export default class Feedback {
 			.feedback-wrapper{
 				position: fixed;
 				z-index: 1000;
-				bottom: 0;
-				${ this.options.position === 'left' ? 'left: 0' : 'right: 0' };
+				bottom: 30%;
+				${ this.options.position === 'right' ? 'left: 0' : 'right: 0' };
 				margin: 2rem;
 				width: 100%;
 				max-width: 20rem;
@@ -576,9 +576,10 @@ export default class Feedback {
 			.feedback-btn-wrapper{
 				position: fixed;
 				z-index: 1000;
-				bottom: 0;
-				${ this.options.position === 'left' ? 'left: 0' : 'right: 0' };
-				margin: 2rem;
+				bottom: 50%;
+				${ this.options.position === 'right' ? 'left: 0' : 'right: 0' };
+				margin: -6rem;
+                                transform: rotate(90deg);
 			}
 
 			#feedback-btn{
