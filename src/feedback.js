@@ -47,12 +47,13 @@ export default class Feedback {
 		// Create a new root element for feedback-js to place it's elements in
 		const div = document.createElement('div')
 		div.id = 'feedback-root'
-		document.body.insertBefore(div, document.body.firstChild)
-		this.root = div
 
-		// Add a comment to the dom
-		const comment = document.createComment('feedback-js modal code')
-		document.body.insertBefore(comment, document.body.firstChild)
+                if(document.body){
+                  console.log("FEEDBACK: document body existe, inserindo modal");
+                  document.body.appendChild(div);
+                }
+		//document.body.insertBefore(div, document.body.firstChild)
+		this.root = div
 
 		// Add the required styles to the page
 		this._addStyle()
