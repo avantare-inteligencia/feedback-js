@@ -50,7 +50,7 @@ export default class Feedback {
 
                 if(document.body){
                   console.log("FEEDBACK: document body existe, inserindo modal");
-                  document.body.appendChild(div);
+                  document.body.insertBefore(div, document.body.firstChild);
                 }
 		//document.body.insertBefore(div, document.body.firstChild)
 		this.root = div
